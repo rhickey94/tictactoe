@@ -1,0 +1,12 @@
+* {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    box-sizing: border-box;
+}
+
+.header {
+    border: 1px black solid;
+    width: 50%;
+    margin: 0 auto;
+    text-align: center;
+    padding-top: 5%;
+}
