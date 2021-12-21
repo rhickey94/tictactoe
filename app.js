@@ -29,25 +29,25 @@
 //     }
 // })();
 
-const gameBoard = (() => {
-    const container = document.querySelector(".container");
-    const squares = document.querySelectorAll(".square");
+// const gameBoard = (() => {
+//     const container = document.querySelector(".container");
+//     const squares = document.querySelectorAll(".square");
 
-    const addListeners = () => {
-        squares.forEach(square => {
-            square.addEventListener("click", console.log(square))
-        });
-    }
+//     const addListeners = () => {
+//         squares.forEach(square => {
+//             square.addEventListener("click", console.log(square))
+//         });
+//     }
 
     
 
-    const render = () => {
-        addListeners();
-    }
+//     const render = () => {
+//         addListeners();
+//     }
 
-    return {
-        render: render
-    }
-})();
+//     return {
+//         render: render
+//     }
+// })();
 
-gameBoard.render()
+// gameBoard.render()
