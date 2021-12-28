@@ -1,49 +1,103 @@
 const gameBoard = (() => {
-  let board = new Array(9);
+  let board = ["", "", "", "", "", "", "", "", ""];
+  // let board = ["X", "X", "X", "X", "X", "X", "X", "X", "X"];
 
-  const getBoard = () => {
-    const currentBoard = document.querySelectorAll("div.square");
-    currentBoard.forEach((square, index) => {
-        board[index] = square.innerHTML;
-    })
+  const makeMove = (index, value) => {
+    if (board[index] === "") {
+      board[index] = value;
+    } else {
+      console.log("Square is already taken!");
+    }
   };
 
-  const displayBoard = () => {
-    const divs = document.querySelectorAll("div.square")
-    board.forEach((row) => {
-        
-    })
+  const getSquare = index => {
+    return board[index]
+  }
+  
+  const getBoard = () => {
+    return board;
+  };
 
+  const hasEmptySpaces = () => {
+    let counter = 0;
+
+    board.forEach((square) => {
+      if (square.length > 0) {
+        counter++;
+      }
+    });
+
+    return counter < board.length;
+  };
+
+  const numOfEmptySpaces = () => {
+    let counter = 0;
+
+    board.forEach((square) => {
+      if (square.length < 1) {
+        counter++;
+      }
+    });
+
+    return counter;
   }
 
-  const getSquare = index => board[index]
-
-  const updateSquare = (index, value) => {
-    board[index] = value;
-  };
+  const reset = () => {
+    for (let i = 0; i < board.length; i++) {
+      board[i] = "";
+    }
+  }
 
   return {
+    makeMove,
+    getSquare,
     getBoard,
-    updateSquare,
-    displayBoard
+    hasEmptySpaces,
+    numOfEmptySpaces,
+    reset
   };
-
 })();
 
-const game = (() => {})();
-
 const player = (letter) => {
-    const _letter = letter;
+  const _letter = letter;
 
-    const getLetter = () => _letter;
+  const getLetter = () => _letter;
 
-    const makeMove = (row, col) => {
-        gameBoard.updateSquare(row, col, getLetter())
-        gameBoard.displayBoard();
-    }
-
-    return {getLetter, makeMove }
+  return { getLetter };
 };
 
-const ryan = player("X")
-const cpu = player("O")
+const gameController = (() => {
+  const player1 = player("X")
+  const player2 = player("O")
+
+  const playRound = boardIndex => {
+    gameBoard.makeMove(boardIndex, getCurrentPlayer())
+
+    if (!gameBoard.hasEmptySpaces()) {
+      console.log("game over")
+    }
+
+    return getCurrentPlayer();
+  }
+
+  const getCurrentPlayer = () => {
+    return gameBoard.numOfEmptySpaces() % 2 === 0 ? player1.getLetter() : player2.getLetter()
+  }
+
+    return {
+      playRound,
+      getCurrentPlayer
+    }
+})();
+
+const htmlController = (() => {
+  const squares = document.querySelectorAll(".square");
+
+  squares.forEach((square, index) => {
+    square.addEventListener("click", (e) => {
+      square.innerHTML = gameController.playRound(index)
+      
+    })
+  })
+
+})();
